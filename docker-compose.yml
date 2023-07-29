@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.34
+    container_name: db-api
+    
+    ports:
+      - 3306:3306
+
+    networks:
+      - db-network
+
+    environment:
+      - MYSQL_DATABASE=filmes
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=filmes
+      - MYSQL_PASSWORD=filmes
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - db-network
+    ports:
+      - 8080:8080
+
+
+networks:
+  db-network:
+    driver: bridge
+
+
