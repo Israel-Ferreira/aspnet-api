@@ -19,17 +19,18 @@ public class FilmesController : ControllerBase
         filme.Id = ++id;
         Console.WriteLine(filme);
         filmes.Add(filme);
-        return Created();
+        return CreatedAtAction(nameof(BuscarFilme), new { id = filme.Id }, filme);
     }
 
     [HttpGet]
-    public IEnumerable<Filme> ListarFilmes()
+    public IActionResult ListarFilmes([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        return filmes;
+        var movies = filmes.Skip(skip).Take(take);
+        return  Ok(movies);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Filme> BuscarFilme(int id)
+    public IActionResult BuscarFilme(int id)
     {
         var result = filmes.FirstOrDefault(f => f.Id == id);
 
